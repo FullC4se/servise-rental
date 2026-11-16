@@ -1,0 +1,15 @@
+# GoLand / IDE
+.idea/
+
+# Бинарники
+*.exe
+*.out
+/bin/
+/tmp/
+
+# Секреты и локальные конфиги
+.env
+
+# Системные файлы
+.DS_Store
+Thumbs.db
