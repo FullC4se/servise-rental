@@ -1,7 +1,5 @@
 package domain
 
-import "time"
-
 type Role string
 
 const (
@@ -14,10 +12,9 @@ func (role Role) IsValid() bool {
 }
 
 type User struct {
-	ID           int       `json:"id"`
-	Name         string    `json:"name"`
-	Email        string    `json:"email"`
-	PasswordHash string    `json:"-"`
-	Role         Role      `json:"role"`
-	CreatedAt    time.Time `json:"created_at"`
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
+	Number string `json:"number"`
+	Email  string `json:"email"`
+	Role   Role   `json:"role"`
 }
