@@ -27,12 +27,25 @@ func (r *RentalRepo) Create(ctx context.Context, rental *domain.Rental) error {
 	return nil
 }
 
+func (r *RentalRepo) GetById(ctx context.Context, id int) (*domain.Rental, error) {
+
+	var rental domain.Rental
+
+	err := r.db.QueryRowContext(ctx, "SELECT id, user_id, server_id, started_at,ended_at, total_amount,status FROM rentals WHERE id = $1", id).Scan(
+		&rental.ID, &rental.UserID, &rental.ServerID, &rental.StartedAt, &rental.EndedAt, &rental.TotalAmount, &rental.Status)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, fmt.Errorf("Аренды с id(%d) не существует, проверьте корректность данных.\nОшибка: %v", id, err)
+		}
+		return nil, err
+	}
+	return &rental, nil
+}
+
 func (r *RentalRepo) GetByUserID(ctx context.Context, userID int) ([]domain.Rental, error) {
 	rentals := make([]domain.Rental, 0)
 
-	rows, err := r.db.QueryContext(ctx,
-		"SELECT id, user_id, server_id, started_at, ended_at, total_amount, status FROM rentals WHERE user_id = $1", userID,
-	)
+	rows, err := r.db.QueryContext(ctx, "SELECT id, user_id, server_id, started_at, ended_at, total_amount, status FROM rentals WHERE user_id = $1", userID)
 	if err != nil {
 		return nil, err
 	}

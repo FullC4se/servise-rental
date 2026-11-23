@@ -1,6 +1,8 @@
 package domain
 
-import "context"
+import (
+	"context"
+)
 
 type UserRepo interface {
 	Create(ctx context.Context, user *User) error
@@ -18,7 +20,8 @@ type ServerRepo interface {
 
 type RentalRepository interface {
 	Create(ctx context.Context, rental *Rental) error
-	GetByUserID(ctx context.Context, id int) ([]*Rental, error)
+	GetById(ctx context.Context, id int) (*Rental, error)
+	GetByUserID(ctx context.Context, id int) ([]Rental, error)
 	GetActiveByServerID(ctx context.Context, serverID int) (*Rental, error)
-	UpdateStatus(ctx, id int, status RentalStatus) error
+	UpdateStatus(ctx context.Context, id int, status RentalStatus) error
 }
